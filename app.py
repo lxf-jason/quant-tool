@@ -26,7 +26,10 @@ import akshare as ak
 import pandas as pd
 import fin_db  # 本地财务数据库，替代逐只HTTP查询
 
-app = Flask(__name__, static_folder='static')
+# 项目根目录（兼容本地和 Vercel serverless）
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(__name__, static_folder=os.path.join(PROJECT_ROOT, 'static'))
 
 # ── 全局缓存 ──────────────────────────────────────────
 _cache = {}
@@ -739,7 +742,7 @@ def screen_result(task_id):
 
 @app.route('/')
 def index():
-    return send_from_directory('static', 'index.html')
+    return send_from_directory(os.path.join(PROJECT_ROOT, 'static'), 'index.html')
 
 
 @app.route('/api/market_overview')
