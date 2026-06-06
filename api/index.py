@@ -1,20 +1,18 @@
 """
 Vercel Serverless Function 入口
-使用 vercel-wsgi 桥接 Flask WSGI app
+使用 asgiref WsgiToAsgi 将 Flask WSGI 转为 ASGI 供 Vercel Python Runtime 调用
 """
 import sys
 import os
-import traceback
 
 # 将项目根目录加入 Python 路径
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
 
-# 导入 vercel-wsgi 桥接器
-from vercel_wsgi import wsgi_app as vercel_handler
-
-# 导入 Flask app（延迟导入，确保路径先设置好）
+# 导入 Flask app
 from app import app
 
-# Vercel serverless 入口：将 WSGI app 转为 Vercel 格式
-handler = vercel_handler(app)
+# 将 WSGI 转为 ASGI（Vercel Python Runtime 期望 ASGI）
+from asgiref.wsgi import WsgiToAsgi
+
+handler = WsgiToAsgi(app)
