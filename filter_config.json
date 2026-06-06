@@ -1,0 +1,10 @@
+[
+  {
+    "name": "PE+ROE筛选",
+    "enabled": true,
+    "conditions": [
+      {"field": "pe_ttm", "op": "<", "value": 20, "label": "市盈率(TTM)"},
+      {"field": "roe", "op": ">", "value": 15, "label": "净资产收益率ROE(%)"}
+    ]
+  }
+]
